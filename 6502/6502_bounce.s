@@ -1,4 +1,4 @@
-; displays animated 6502
+; displays bouncing back/forth 6502 on display
 
 .include "../kim.inc"
 
