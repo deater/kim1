@@ -1,0 +1,46 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\begin{document}
+
+\noindent
+To enter program:
+\begin{itemize}
+	\item make sure slider is to right (not single-step)
+	\item press AD (address) key
+	\item this program loads at \$0000 so press 0000
+	\item press DA (data) key
+	\item enter each opcode byte then press `+'
+	\item when done press AD and 0000 to point to beginning
+	\item press GO to run
+	\item press RS (reset) or ST (stop) to stop
+\end{itemize}
+
+\noindent
+Sample ``6502 Bounce'' program:
+\begin{verbatim}
+0000:              start:
+0000: E6 80             inc     FRAME
+0002: A5 80             lda     FRAME
+0004: 29 03             and     #$3
+0006: AA                tax
+0007: B4 1D             ldy     offsets,X
+0009: A2 02             ldx     #2
+000B:              loop:
+000B: B9 20 00          lda     data,Y
+000E: 95 F9             sta     $F9,X
+0010: C8                iny
+0011: CA                dex
+0012: 10 F7             bpl     loop
+0014:              display_loop_inner:
+0014: 20 1F 1F          jsr     SCANDS
+0017: C6 81             dec     COUNT
+0019: D0 F9             bne     display_loop_inner
+001B: F0 E3             beq     start
+001D:              offsets:
+001D: 04 01 04          .byte 4,1,4
+0020:              data:
+0020: 00 65 02 00       .byte $00,$65,$02,$00
+0024: 06 50 20          .byte $06,$50,$20
+\end{verbatim}
+
+\end{document}
